@@ -1,0 +1,59 @@
+# PLAN PREZENTARE PROIECT - FITTRACK (MPP)
+
+## ETAPA 1: ASSIGNMENT 2 - GOLD CHALLENGE (API & UX)
+1.1. DEMONSTRAȚIE GRAPHQL INTERFACE
+   - Acțiune: Accesare /graphql (Playground/Sandbox).
+   - Explicație: "Reimplementarea server-side folosind GraphQL pentru eficientizarea cererilor de date (evitare over-fetching)."
+
+1.2. COMPORTAMENT INFINITE SCROLL & PREFETCHING
+   - Acțiune: Scroll în lista de antrenamente (Dashboard).
+   - Explicație: "Implementarea paginării automate pe frontend cu mecanism de prefetching pentru latență zero în experiența utilizatorului."
+
+1.3. RELAȚII DOMAIN (1-TO-MANY)
+   - Acțiune: Vizualizare Workout -> Exercise List.
+   - Explicație: "Gestiune Full-stack (CRUD + Stats) pentru relația 1-la-N între obiectele din domeniul aplicației."
+
+---
+
+## ETAPA 2: ASSIGNMENT 3 - BRONZE (PERSISTENȚĂ & RDBMS)
+2.1. ARHITECTURĂ DATABASE (3NF)
+   - Acțiune: Prezentare schema.prisma / structură tabele.
+   - Explicație: "Utilizarea SQLite ca RDBMS, normalizat la nivel 3NF. Integrare prin Prisma ORM."
+
+2.2. INSTRUMENTE DE MIGRAȚIE & TESTARE
+   - Acțiune: Prezentare folder /migrations și rulare 'npm test'.
+   - Explicație: "Migrarea automată a bazei de date din obiectele de domeniu și asigurarea integrității prin unit testing riguros (Backend coverage)."
+
+2.3. DEPLOYMENT CONFIGURATION
+   - Explicație: "Configurarea serverului pentru accesibilitate remote (non-localhost), demonstrând separarea fizică/logică a clientului față de server."
+
+---
+
+## ETAPA 3: ASSIGNMENT 3 - SILVER (SECURITY & REAL-TIME)
+3.1. INFRASTRUCTURĂ RBAC (ROLE-BASED ACCESS CONTROL)
+   - Acțiune: Login alternativ (Normal User vs. Admin).
+   - Explicație: "Sistem complet de User, Roles și Permissions implementat la nivel de bază de date și reflectat în UI."
+
+3.2. COMUNICAȚIE REAL-TIME & NOSQL
+   - Acțiune: Chat live între două ferestre de browser.
+   - Explicație: "Integrare WebSockets (Socket.io) pentru chat sincron. Utilizarea MongoDB (NoSQL) pentru persistența mesajelor, optimizând viteza de scriere."
+
+---
+
+## ETAPA 4: ASSIGNMENT 3 - GOLD (AUDIT & ANOMALY DETECTION)
+4.1. LOGGING INFRASTRUCTURE
+   - Acțiune: Prezentare tabelă AuditLog (ID, Acțiune, Timestamp).
+   - Explicație: "Sistem de jurnalizare automată pe backend pentru toate acțiunile critice efectuate de utilizatorii autentificați."
+
+4.2. DETECȚIE COMPORTAMENT MALIȚIOS
+   - Acțiune: Simulare spam (ștergeri repetate).
+   - Explicație: "Algoritm de monitorizare a frecvenței acțiunilor. Detectarea automată a anomaliilor bazată pe tipare de utilizare (ex: Delete spam)."
+
+4.3. ADMIN OBSERVATION LIST
+   - Acțiune: Vizualizare "Suspicious Users" din interfața de Admin.
+   - Explicație: "Marcarea automată a utilizatorilor suspecți și raportarea lor într-o listă dedicată de monitorizare pentru administrator."
+
+
+👥 Users — tabel cu toți userii, badge portocaliu pentru Admin, verde pentru Normal User, FLAGGED roșu pentru suspecți
+📋 Audit Log — tabel scrollabil, badge verde=CREATE, portocaliu=UPDATE, roșu=DELETE, timestamp format românesc, header sticky
+🚨 Observation List — fundal roșu/verde dinamic, animație pulse pe badge-ul SUSPICIOUS, polling la 5 secunde

@@ -1,0 +1,47 @@
+=====================================================
+FITTRACK GOLD CHALLENGE - COMENZI PENTRU PREZENTARE
+=====================================================
+
+1. 💻 COMENZI PENTRU FRONTEND (React / Vite)
+-----------------------------------------------------
+(Aceste comenzi se rulează din folderul principal al proiectului: FitTrack/)
+
+npm run dev
+👉 PORNIRE APLICAȚIE (Meniul Principal)
+Pornește direct serverul Vite pe portul standard (ex: localhost:5174). De aici profesorul se poate uita la Dashboard, Formular și Infinit Scroll.
+
+npm run test
+👉 RULARE TESTE UNITARE & COMPONENTE
+Pornește Vitest. Trece prin toate scripturile *.test.js* și îți va afișa mare că toate testele au trecut cu succes (inclusiv testele care redau componentele formularului sau Landing page-ului). Apasă tasta "q" pentru a ieși.
+
+npm run coverage
+👉 RAPORT DE ACOPERIRE COD (TEST COVERAGE)
+Afișează un tabel detaliat în consolă care îți spune ce procent din cod a fost testat efectiv.
+
+npm run build 
+👉 COMPILAREA PENTRU PRODUCȚIE
+Creează fișierul optimizat (minified) dacă ești întrebat cum s-ar pune aplicația pe un server adevarat de cloud.
+
+
+2. ⚙️ COMENZI PENTRU BACKEND (Node.js / Apollo GraphQL)
+-----------------------------------------------------
+(Aceste comenzi se rulează DOAR din folderul server! Mai întâi dai: cd server)
+
+npm start
+👉 PORNIRE SERVER BACKEND (Obligatoriu prima dată)
+Pornește creierul aplicației pe portul 3000. Fără asta, Frontend-ul nu are de unde să ia date.
+Îți pornește pe `http://localhost:3000/graphql` mediul de GraphQL Sandbox.
+
+npm run dev
+👉 PORNIRE BACKEND ÎN MOD "WATCH"
+Același lucru ca mai sus, însă dacă pui pauză și modifici ceva în backend la prezentare, serverul se va restarta automat. E folositor dacă profu te pune să schimbi un rând mic de cod live.
+
+npm test
+👉 RULARE TESTE REST-API
+Așa cum ai teste pe Frontend, ai teste și pe backend (validează că rutele sau conexiunile bazei de date funcționează perfect).
+
+
+⚡ PE SCURT (ORDINEA PENTRU PREZENTARE LA PROFESOR) ⚡
+1. Deschide un terminal -> "cd server" -> "npm start"
+2. Deschide terminal nou -> stai pe folderul root -> "npm run dev"
+3. (Opțional, dacă te întreabă de verificări) -> "npm run test"
