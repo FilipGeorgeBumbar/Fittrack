@@ -1426,16 +1426,15 @@ li {
   .top-actions {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 8px;
   }
 
   .top-actions .btn {
-    flex: 1;
-    min-width: 120px;
+    width: 100%;
     text-align: center;
-    font-size: 13px;
-    padding: 10px 12px;
+    font-size: 14px;
+    padding: 12px;
   }
 
   .stats-grid {
@@ -1671,14 +1670,12 @@ li {
   }
 
   .top-actions {
-    gap: 6px;
+    gap: 8px;
   }
 
   .top-actions .btn {
-    font-size: 12px;
-    padding: 8px 10px;
-    min-width: 0;
-    flex: 1;
+    font-size: 14px;
+    padding: 12px;
   }
 
   .premium-card {

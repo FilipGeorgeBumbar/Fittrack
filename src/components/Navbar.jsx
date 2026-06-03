@@ -88,9 +88,6 @@ export default function Navbar() {
 
       {/* Mobile drawer */}
       <div className={`mobile-nav-drawer ${menuOpen ? "open" : ""}`}>
-        <button className="mobile-close-btn" onClick={closeMenu} aria-label="Close menu">
-          ✕
-        </button>
 
         {!isAuthenticated ? (
           <>
