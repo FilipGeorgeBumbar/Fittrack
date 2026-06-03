@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node seed_users.js && node seed.js && node src/index.js",
     "dev": "node --watch src/index.js",
     "build": "npx prisma generate && npx prisma db push --accept-data-loss",
     "seed": "node seed_users.js && node seed.js",
