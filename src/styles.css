@@ -1416,6 +1416,9 @@ li {
 
   .page {
     padding: 16px;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .header-row {
@@ -1438,7 +1441,7 @@ li {
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 
@@ -1455,8 +1458,9 @@ li {
   }
 
   .dashboard-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
+    width: 100%;
   }
 
   .dashboard-right {
@@ -1652,7 +1656,7 @@ li {
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
 
@@ -1867,6 +1871,7 @@ li {
   .admin-table-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 
   /* Filter controls stack on mobile */
