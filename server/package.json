@@ -9,6 +9,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
+    "build": "npx prisma generate && npx prisma db push --accept-data-loss",
+    "seed": "node seed_users.js && node seed.js",
+    "postbuild": "node seed_users.js",
     "generate-certs": "node scripts/generate-certs.js",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
@@ -22,17 +25,16 @@
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
     "express": "^4.22.1",
     "graphql": "^16.13.2",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.1",
     "socket.io": "^4.8.3",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.4.0",
     "@vitest/coverage-v8": "^4.1.4",
-    "mongodb-memory-server": "^11.1.0",
     "prisma": "^5.22.0",
     "selfsigned": "^5.5.0",
     "supertest": "^7.2.2",

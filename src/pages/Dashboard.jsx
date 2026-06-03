@@ -119,17 +119,8 @@ export default function Dashboard() {
                   Your Workouts ({paginatedWorkouts.length}
                   {totalItems > paginatedWorkouts.length ? ` / ${totalItems}` : ""})
                 </h3>
-                <div
-                  className="filter-sort-controls"
-                  style={{
-                    display: "flex",
-                    gap: "15px",
-                    alignItems: "flex-end",
-                    flexWrap: "wrap",
-                    marginBottom: "15px",
-                  }}
-                >
-                  <div className="control-group" style={{ display: "flex", flexDirection: "column" }}>
+                <div className="filter-sort-controls">
+                  <div className="control-group">
                     <label>Filter by Type</label>
                     <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
                       <option value="All">All Types</option>
@@ -139,7 +130,7 @@ export default function Dashboard() {
                       <option value="Full Body">Full Body</option>
                     </select>
                   </div>
-                  <div className="control-group" style={{ display: "flex", flexDirection: "column" }}>
+                  <div className="control-group">
                     <label>Sort Order</label>
                     <select
                       value={`${sortBy.field}-${sortBy.order}`}

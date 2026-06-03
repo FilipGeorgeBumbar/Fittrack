@@ -47,7 +47,7 @@ describe("Login page", () => {
     renderLogin();
     expect(screen.getByRole("heading", { name: /welcome back/i })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /continue/i })).toBeInTheDocument();
   });
 
   test("shows inactivity message when redirected with reason=idle", () => {
@@ -68,7 +68,7 @@ describe("Login page", () => {
     fireEvent.change(screen.getByPlaceholderText(/enter your password/i), {
       target: { value: "wrong" },
     });
-    fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    fireEvent.click(screen.getByRole("button", { name: /continue/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe("Login page", () => {
     fireEvent.change(screen.getByPlaceholderText(/enter your password/i), {
       target: { value: "secret" },
     });
-    fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+    fireEvent.click(screen.getByRole("button", { name: /continue/i }));
 
     await waitFor(() => {
       expect(persistSession).toHaveBeenCalledWith({

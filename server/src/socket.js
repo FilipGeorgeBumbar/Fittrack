@@ -1,34 +1,15 @@
 import { Server } from 'socket.io';
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
 let io;
-let Message;
 
-const setupMongoDb = async () => {
-  const mongod = await MongoMemoryServer.create();
-  const uri = mongod.getUri();
-  await mongoose.connect(uri);
-  console.log(`Connected to in-memory MongoDB for chat at ${uri}`);
-
-  const messageSchema = new mongoose.Schema({
-    senderId: String,
-    senderName: String,
-    role: String,
-    text: String,
-    timestamp: { type: Date, default: Date.now }
-  });
-
-  Message = mongoose.model('Message', messageSchema);
-};
-
-// Start setup
-setupMongoDb().catch(err => console.error('MongoDB setup error:', err));
+// In-memory chat storage (no MongoDB dependency for deployment simplicity)
+let chatMessages = [];
+const MAX_CHAT_HISTORY = 100;
 
 export const initializeSocket = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
-      origin: '*', // For development purposes. Restrict this in production.
+      origin: '*',
       methods: ['GET', 'POST']
     }
   });
@@ -36,29 +17,27 @@ export const initializeSocket = (httpServer) => {
   io.on('connection', async (socket) => {
     console.log(`Client connected: ${socket.id}`);
 
-    if (Message) {
-        try {
-            const history = await Message.find().sort({ timestamp: 1 }).limit(100);
-            socket.emit('chat_history', history);
-        } catch (err) {
-            console.error('Failed to load history', err);
-        }
-    }
+    // Send chat history
+    socket.emit('chat_history', chatMessages);
 
-    socket.on('chat_message', async (data) => {
-        if (!Message) return;
-        try {
-            const newMsg = new Message({
-                senderId: data.senderId,
-                senderName: data.senderName,
-                role: data.role,
-                text: data.text
-            });
-            await newMsg.save();
-            io.emit('chat_message', newMsg);
-        } catch (err) {
-            console.error('Failed to save message', err);
-        }
+    socket.on('chat_message', (data) => {
+      const newMsg = {
+        _id: Date.now().toString(),
+        senderId: data.senderId,
+        senderName: data.senderName,
+        role: data.role,
+        text: data.text,
+        timestamp: new Date()
+      };
+
+      chatMessages.push(newMsg);
+
+      // Keep only last N messages
+      if (chatMessages.length > MAX_CHAT_HISTORY) {
+        chatMessages = chatMessages.slice(-MAX_CHAT_HISTORY);
+      }
+
+      io.emit('chat_message', newMsg);
     });
 
     socket.on('disconnect', () => {

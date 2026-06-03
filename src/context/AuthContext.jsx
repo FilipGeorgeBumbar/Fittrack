@@ -9,6 +9,7 @@ import {
   persistSession,
   refreshSession,
   registerRequest,
+  verify2FARequest,
 } from '../services/auth.js';
 
 const AuthContext = createContext(null);
@@ -58,6 +59,21 @@ export function AuthProvider({ children }) {
       const { ok, data } = await loginRequest(credentials);
       if (!ok) {
         return { ok: false, error: data.error || 'Login failed' };
+      }
+      if (data.requires2FA) {
+        return { ok: true, requires2FA: true, email: data.email };
+      }
+      applySession({ token: data.token, user: data.user });
+      return { ok: true };
+    },
+    [applySession]
+  );
+
+  const verify2FA = useCallback(
+    async (payload) => {
+      const { ok, data } = await verify2FARequest(payload);
+      if (!ok) {
+        return { ok: false, error: data.error || 'Verification failed' };
       }
       applySession({ token: data.token, user: data.user });
       return { ok: true };
@@ -133,10 +149,11 @@ export function AuthProvider({ children }) {
       token,
       isAuthenticated,
       login,
+      verify2FA,
       register,
       logout,
     }),
-    [user, token, isAuthenticated, login, register, logout]
+    [user, token, isAuthenticated, login, verify2FA, register, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

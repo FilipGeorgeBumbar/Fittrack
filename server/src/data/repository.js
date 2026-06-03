@@ -45,10 +45,11 @@ export const getAuditLogs = async (limit = 50) => {
   });
 };
 
-export const getAllWorkouts = async (offset = 0, limit = 10, filter = {}, sort = { field: 'date', order: 'desc' }) => {
+export const getAllWorkouts = async (offset = 0, limit = 10, filter = {}, sort = { field: 'date', order: 'desc' }, userId = null) => {
   const where = {};
   if (filter.type && filter.type !== 'All') where.type = filter.type;
   if (filter.status && filter.status !== 'All') where.status = filter.status;
+  if (userId) where.userId = userId;
 
   const orderBy = {};
   if (sort.field) orderBy[sort.field] = sort.order;
@@ -65,9 +66,11 @@ export const getAllWorkouts = async (offset = 0, limit = 10, filter = {}, sort =
   return { results, total };
 };
 
-export const getWorkoutById = async (id) => {
-  return prisma.workout.findUnique({
-    where: { id },
+export const getWorkoutById = async (id, userId = null) => {
+  const where = { id };
+  if (userId) where.userId = userId;
+  return prisma.workout.findFirst({
+    where,
     include: { exercises: true },
   });
 };
@@ -75,6 +78,7 @@ export const getWorkoutById = async (id) => {
 export const createWorkout = async (workout, userId) => {
   const data = {
     ...workout,
+    userId,
     date: workout.date || new Date().toISOString()
   };
   const res = await prisma.workout.create({ data });
@@ -84,6 +88,9 @@ export const createWorkout = async (workout, userId) => {
 
 export const updateWorkout = async (id, updatedFields, userId) => {
   try {
+    const existing = await prisma.workout.findUnique({ where: { id } });
+    if (!existing || (userId && existing.userId && existing.userId !== userId)) return null;
+
     const res = await prisma.workout.update({
       where: { id },
       data: updatedFields,
@@ -97,6 +104,9 @@ export const updateWorkout = async (id, updatedFields, userId) => {
 
 export const deleteWorkout = async (id, userId) => {
   try {
+    const existing = await prisma.workout.findUnique({ where: { id } });
+    if (!existing || (userId && existing.userId && existing.userId !== userId)) return false;
+
     await prisma.workout.delete({ where: { id } });
     await logAction(userId, 'DELETE', 'Workout');
     return true;
@@ -134,8 +144,10 @@ export const deleteExercise = async (id, userId) => {
   }
 };
 
-export const getStats = async () => {
+export const getStats = async (userId = null) => {
+  const where = userId ? { userId } : {};
   const aggregate = await prisma.workout.aggregate({
+    where,
     _count: { id: true },
     _sum: { duration: true }
   });

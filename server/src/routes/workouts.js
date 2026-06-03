@@ -2,8 +2,12 @@ import express from 'express';
 import { z } from 'zod';
 import * as repo from '../data/repository.js';
 import { emitNewWorkouts } from '../socket.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
+
+router.use(requireAuth);
+
 
 // Validation Schemas
 const createWorkoutSchema = z.object({
@@ -23,20 +27,23 @@ const updateWorkoutSchema = createWorkoutSchema.partial();
 router.get('/', async (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
   const limit = parseInt(req.query.limit) || 10;
+  const userId = req.auth?.role === 'Admin' ? null : req.auth.sub;
   
-  const results = await repo.getAllWorkouts(offset, limit);
+  const results = await repo.getAllWorkouts(offset, limit, {}, { field: 'date', order: 'desc' }, userId);
   res.json(results);
 });
 
 // GET /workouts/stats
 router.get('/stats', async (req, res) => {
-    const stats = await repo.getStats();
+    const userId = req.auth?.role === 'Admin' ? null : req.auth.sub;
+    const stats = await repo.getStats(userId);
     res.json(stats);
 });
 
 // GET /workouts/:id
 router.get('/:id', async (req, res) => {
-  const workout = await repo.getWorkoutById(req.params.id);
+  const userId = req.auth?.role === 'Admin' ? null : req.auth.sub;
+  const workout = await repo.getWorkoutById(req.params.id, userId);
   if (!workout) {
     return res.status(404).json({ error: 'Workout not found' });
   }
@@ -47,14 +54,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const validatedData = createWorkoutSchema.parse(req.body);
-    const newWorkout = await repo.createWorkout(validatedData);
+    const newWorkout = await repo.createWorkout(validatedData, req.auth.sub);
     
     // Server validation success & creation
     res.status(201).json(newWorkout);
-    
-    // Potentially notify via sockets even for manual creations? 
-    // Requirements mention web socket for faker-generated ones, but we can do it here too if needed, or keep them separate.
-    // emitNewWorkouts([newWorkout]); // Uncomment if we want ALL creations to emit.
   } catch (error) {
     res.status(400).json({ error: error.issues || error.message });
   }
@@ -64,10 +67,11 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const validatedData = updateWorkoutSchema.parse(req.body);
-    const updatedWorkout = await repo.updateWorkout(req.params.id, validatedData);
+    const userId = req.auth?.role === 'Admin' ? null : req.auth.sub;
+    const updatedWorkout = await repo.updateWorkout(req.params.id, validatedData, userId);
     
     if (!updatedWorkout) {
-      return res.status(404).json({ error: 'Workout not found' });
+      return res.status(404).json({ error: 'Workout not found or unauthorized' });
     }
     
     res.json(updatedWorkout);
@@ -78,9 +82,10 @@ router.put('/:id', async (req, res) => {
 
 // DELETE /workouts/:id
 router.delete('/:id', async (req, res) => {
-  const success = await repo.deleteWorkout(req.params.id);
+  const userId = req.auth?.role === 'Admin' ? null : req.auth.sub;
+  const success = await repo.deleteWorkout(req.params.id, userId);
   if (!success) {
-    return res.status(404).json({ error: 'Workout not found' });
+    return res.status(404).json({ error: 'Workout not found or unauthorized' });
   }
   
   res.status(204).send();

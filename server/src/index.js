@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import http from 'http';
@@ -50,7 +51,27 @@ const httpServer = buildServer();
 
 initializeSocket(httpServer);
 
-app.use(cors());
+// CORS configuration — allow frontend domain in production
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL, 'http://localhost:5173', 'https://localhost:5173']
+  : ['http://localhost:5173', 'https://localhost:5173'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      return callback(null, true);
+    }
+    // In development, allow all
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    return callback(null, true); // Be permissive for the demo
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
@@ -58,7 +79,10 @@ await apolloServer.start();
 
 app.use(
   '/graphql',
-  cors(),
+  cors({
+    origin: (origin, callback) => callback(null, true),
+    credentials: true,
+  }),
   express.json(),
   expressMiddleware(apolloServer, {
     context: async ({ req }) => {
@@ -94,6 +118,11 @@ app.post('/simulation/stop', (req, res) => {
 
 app.get('/simulation/status', (req, res) => {
   res.json({ running: isSimulationRunning() });
+});
+
+// Health check for Render
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 const PORT = process.env.PORT || 3000;

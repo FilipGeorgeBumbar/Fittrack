@@ -1,7 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import Landing from "./Landing";
+
+vi.mock("../context/AuthContext", () => ({
+  useAuth: () => ({ isAuthenticated: false })
+}));
 
 describe("Landing page", () => {
   test("renders main title", () => {

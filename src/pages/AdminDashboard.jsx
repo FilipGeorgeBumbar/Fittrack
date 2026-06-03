@@ -108,7 +108,7 @@ export default function AdminDashboard() {
           {usersLoading ? (
             <p style={{ color: "#888" }}>Loading users...</p>
           ) : (
-            <div style={{ overflowX: "auto" }}>
+            <div className="admin-table-scroll">
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ borderBottom: "2px solid #333", textAlign: "left" }}>
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
           ) : auditLogs.length === 0 ? (
             <p style={{ color: "#888", fontSize: "14px" }}>No actions recorded yet.</p>
           ) : (
-            <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+            <div className="admin-table-scroll" style={{ maxHeight: "400px", overflowY: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ borderBottom: "2px solid #333", textAlign: "left", position: "sticky", top: 0, background: "#1a1a1a" }}>

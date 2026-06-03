@@ -95,15 +95,7 @@ export default function Register() {
           <select
             value={roleName}
             onChange={(e) => setRoleName(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "#222",
-              border: "1px solid #333",
-              color: "white",
-              borderRadius: "8px",
-              marginBottom: "15px",
-            }}
+            className="auth-select"
           >
             <option value="Normal User">Normal User</option>
             <option value="Admin">Admin</option>

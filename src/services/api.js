@@ -3,16 +3,19 @@ const PROTOCOL = USE_HTTPS ? 'https' : 'http';
 export const SERVER_IP = import.meta.env.VITE_SERVER_IP || 'localhost';
 export const SERVER_PORT = import.meta.env.VITE_SERVER_PORT || '3000';
 
-// În development, Vite face proxy la server — evită IP greșit + probleme cu certificatul pe :3000
+// In development, Vite proxies requests to the backend — avoids IP/cert issues
 const useDevProxy = import.meta.env.DEV;
 
-const remoteBase = `${PROTOCOL}://${SERVER_IP}:${SERVER_PORT}`;
+// In production, use VITE_API_URL if provided (e.g., https://fittrack-api.onrender.com)
+const apiUrl = import.meta.env.VITE_API_URL;
+
+const remoteBase = apiUrl || `${PROTOCOL}://${SERVER_IP}:${SERVER_PORT}`;
 export const BASE_URL = useDevProxy ? '' : remoteBase;
 export const GRAPHQL_URL = useDevProxy ? '/graphql' : `${remoteBase}/graphql`;
 export const AUTH_URL = useDevProxy ? '/auth' : `${remoteBase}/auth`;
 export const SOCKET_URL = remoteBase;
 
-/** Opțiuni Socket.IO — dev: același host ca Vite (proxy); LAN: URL complet */
+/** Socket.IO options — dev: same host as Vite (proxy); production: full URL */
 export function getSocketUrl() {
   return useDevProxy ? undefined : remoteBase;
 }

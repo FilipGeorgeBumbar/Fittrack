@@ -83,7 +83,7 @@ describe('Auth API (Bronze)', () => {
       });
     });
 
-    it('logs in with valid credentials and returns JWT', async () => {
+    it('logs in with valid credentials and prompts for 2FA', async () => {
       const res = await request(app).post('/auth/login').send({
         email: TEST_EMAIL,
         password: TEST_PASSWORD,
@@ -91,8 +91,8 @@ describe('Auth API (Bronze)', () => {
       });
 
       expect(res.status).toBe(200);
-      expect(res.body.token).toBeDefined();
-      expect(res.body.user.role.name).toBe('Normal User');
+      expect(res.body.requires2FA).toBe(true);
+      expect(res.body.email).toBe(TEST_EMAIL);
     });
 
     it('rejects wrong password', async () => {

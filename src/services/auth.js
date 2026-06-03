@@ -57,6 +57,36 @@ export async function registerRequest({ name, email, password, roleName }) {
   return { ok: res.ok, status: res.status, data };
 }
 
+export async function verify2FARequest({ email, code }) {
+  const res = await fetch(`${AUTH_URL}/verify-2fa`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, code }),
+  });
+  const data = await res.json();
+  return { ok: res.ok, status: res.status, data };
+}
+
+export async function forgotPasswordRequest({ email }) {
+  const res = await fetch(`${AUTH_URL}/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const data = await res.json();
+  return { ok: res.ok, status: res.status, data };
+}
+
+export async function resetPasswordRequest({ email, token, newPassword }) {
+  const res = await fetch(`${AUTH_URL}/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, token, newPassword }),
+  });
+  const data = await res.json();
+  return { ok: res.ok, status: res.status, data };
+}
+
 export async function refreshSession() {
   const token = getStoredToken();
   if (!token) return { ok: false };

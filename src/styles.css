@@ -643,6 +643,17 @@ li {
   margin-top: 18px;
 }
 
+.auth-select {
+  width: 100%;
+  padding: 12px;
+  background: #222;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
 .two-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -925,6 +936,29 @@ li {
   --card-bg: rgba(30, 30, 30, 0.7);
   --border: rgba(255, 255, 255, 0.08);
   --glass: blur(12px);
+}
+
+/* Filter/Sort Controls */
+.filter-sort-controls {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.control-group select {
+  padding: 10px 12px;
+  background: #222;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
 /* Page Transitions */
@@ -1300,3 +1334,585 @@ li {
   border-top: 1px solid rgba(255,106,0,0.4);
 }
 .stat-card h2 { color: #fff; }
+
+/* ============================
+   MOBILE HAMBURGER MENU
+   ============================ */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  z-index: 1001;
+}
+
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+
+.mobile-menu-overlay.open {
+  display: block;
+}
+
+.mobile-nav-drawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100vh;
+  background: #1a1a1a;
+  border-left: 1px solid #333;
+  z-index: 1000;
+  padding: 70px 24px 24px;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.mobile-nav-drawer.open {
+  right: 0;
+}
+
+.mobile-nav-drawer .btn,
+.mobile-nav-drawer a {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mobile-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ============================
+   RESPONSIVE: TABLETS (768px)
+   ============================ */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: block;
+  }
+
+  .mobile-nav-drawer {
+    display: flex;
+  }
+
+  .page {
+    padding: 16px;
+  }
+
+  .header-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .top-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .top-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-card h2 {
+    font-size: 30px;
+  }
+
+  .stat-card p {
+    font-size: 13px;
+  }
+
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dashboard-right {
+    position: static;
+  }
+
+  .premium-card {
+    padding: 16px;
+  }
+
+  .workout-table-container {
+    max-height: 350px;
+  }
+
+  .workout-table {
+    min-width: 600px;
+  }
+
+  .workout-table th,
+  .workout-table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .centered-form {
+    max-width: 100%;
+  }
+
+  .detail-page-wrap {
+    max-width: 100%;
+  }
+
+  .detail-actions {
+    flex-wrap: wrap;
+  }
+
+  .detail-actions .btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .stats-sections {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .simple-charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .bazinga-page {
+    max-width: 100%;
+  }
+
+  .bazinga-header h1 {
+    font-size: 32px;
+  }
+
+  .bazinga-summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .bazinga-info-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .bazinga-result-card h2 {
+    font-size: 26px;
+  }
+
+  .bazinga-card-actions {
+    flex-direction: column;
+  }
+
+  .bazinga-card-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .landing-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .landing-card {
+    min-height: auto;
+    padding: 22px 20px;
+  }
+
+  .landing-card-featured {
+    min-height: auto;
+    padding: 28px 24px;
+    transform: none;
+  }
+
+  .auth-card {
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+
+  .overview-header-simple {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .advanced-dashboard {
+    padding: 20px;
+  }
+
+  /* Chat widget mobile */
+  .chat-widget-mobile {
+    width: calc(100vw - 24px) !important;
+    right: 12px !important;
+    left: 12px !important;
+    bottom: 12px !important;
+    max-width: none !important;
+  }
+}
+
+/* ============================
+   RESPONSIVE: SMALL PHONES (480px)
+   ============================ */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 14px;
+    min-height: 60px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .brand-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hero {
+    padding: 30px 14px 24px;
+  }
+
+  .hero-line {
+    font-size: 32px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+
+  .hero-buttons {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  .page {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .stat-card h2 {
+    font-size: 26px;
+  }
+
+  .small-unit {
+    font-size: 16px;
+  }
+
+  .top-actions {
+    gap: 6px;
+  }
+
+  .top-actions .btn {
+    font-size: 12px;
+    padding: 8px 10px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .premium-card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .workout-table th,
+  .workout-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .actions {
+    gap: 6px;
+  }
+
+  .icon-btn {
+    font-size: 14px;
+    padding: 4px;
+  }
+
+  .status-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .form-card {
+    padding: 18px;
+  }
+
+  .form-card h2 {
+    font-size: 22px;
+  }
+
+  .form-card input,
+  .form-card select,
+  .form-card textarea,
+  .auth-card input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .auth-card h2 {
+    font-size: 26px;
+  }
+
+  .auth-subtitle {
+    font-size: 14px;
+  }
+
+  .bazinga-header h1 {
+    font-size: 26px;
+  }
+
+  .bazinga-summary-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .bazinga-mini-card {
+    padding: 14px 10px;
+  }
+
+  .bazinga-mini-card h3 {
+    font-size: 24px;
+  }
+
+  .bazinga-mini-card p {
+    font-size: 11px;
+  }
+
+  .bazinga-info-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .bazinga-info-box {
+    padding: 12px 8px;
+  }
+
+  .bazinga-info-box strong {
+    font-size: 16px;
+  }
+
+  .bazinga-result-card {
+    padding: 18px;
+  }
+
+  .bazinga-result-card h2 {
+    font-size: 22px;
+  }
+
+  .bazinga-reason {
+    font-size: 15px;
+  }
+
+  .advanced-dashboard {
+    padding: 14px;
+  }
+
+  .simple-svg-wrap {
+    max-width: 200px;
+  }
+
+  .svg-center span {
+    font-size: 20px;
+  }
+
+  .landing-card h3 {
+    font-size: 22px;
+  }
+
+  .landing-card p {
+    font-size: 15px;
+  }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .featured-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .distribution-bar {
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .pagination {
+    padding: 8px 12px;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .mobile-nav-drawer {
+    width: 260px;
+  }
+
+  /* Admin table mobile */
+  .admin-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .admin-table-scroll table {
+    min-width: 500px;
+  }
+}
+
+/* ============================
+   RESPONSIVE: TINY PHONES (360px)
+   ============================ */
+@media (max-width: 360px) {
+  .hero-line {
+    font-size: 28px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .stat-card h2 {
+    font-size: 22px;
+  }
+
+  .bazinga-summary-grid,
+  .bazinga-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================
+   GENERAL MOBILE IMPROVEMENTS
+   ============================ */
+@media (max-width: 768px) {
+  /* Ensure tables scroll horizontally */
+  .workout-table-container,
+  .admin-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Filter controls stack on mobile */
+  .filter-sort-controls {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .filter-sort-controls .control-group {
+    width: 100%;
+  }
+
+  .filter-sort-controls select {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    background: #222 !important;
+    border: 1px solid #333 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+  }
+
+  .filter-sort-controls .btn {
+    width: 100%;
+  }
+
+  /* Improve touch targets */
+  button, a, input, select, textarea {
+    min-height: 38px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+}
