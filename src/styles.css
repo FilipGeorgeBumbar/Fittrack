@@ -710,10 +710,6 @@ li {
   }
 
   .nav-links {
-    gap: 14px;
-  }
-
-  .nav-link-simple {
     display: none;
   }
 

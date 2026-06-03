@@ -103,7 +103,7 @@ export default function Dashboard() {
             <Link to="/bazinga" className="btn btn-secondary bazinga-dashboard-btn">
               Get Recommendation
             </Link>
-            <Link to="/statistics" className="btn btn-secondary" style={{ marginLeft: "10px" }}>
+            <Link to="/statistics" className="btn btn-secondary">
               Statistics View
             </Link>
           </div>
