@@ -38,11 +38,14 @@ export function AuthProvider({ children }) {
   const logout = useCallback(
     async (redirectTo = '/') => {
       await logoutRequest();
-      setUser(null);
-      setToken(null);
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       if (refreshTimerRef.current) clearInterval(refreshTimerRef.current);
       navigate(redirectTo);
+      // Defer clearing state to avoid ProtectedRoute race condition
+      setTimeout(() => {
+        setUser(null);
+        setToken(null);
+      }, 0);
     },
     [navigate]
   );
