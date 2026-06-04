@@ -96,18 +96,24 @@ router.post('/login', async (req, res) => {
     }
 
     // Silver Challenge: 3-Way Auth (2FA)
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    twoFactorCodes.set(email.trim().toLowerCase(), {
-      code,
-      user,
-      expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
-    });
+    // TEMPORARY FOR DEMO: Only require 2FA for Admin
+    if (user.role.name === 'Admin') {
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      twoFactorCodes.set(email.trim().toLowerCase(), {
+        code,
+        user,
+        expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
+      });
 
-    console.log(`\n==============================================`);
-    console.log(`[2FA CODE FOR ${user.email}]: ${code}`);
-    console.log(`==============================================\n`);
+      console.log(`\n==============================================`);
+      console.log(`[2FA CODE FOR ${user.email}]: ${code}`);
+      console.log(`==============================================\n`);
 
-    res.json({ requires2FA: true, email: user.email });
+      return res.json({ requires2FA: true, email: user.email });
+    }
+
+    // Normal users bypass 2FA for the demo
+    res.json(authResponse(user));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
