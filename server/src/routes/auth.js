@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
     // Silver Challenge: 3-Way Auth (2FA)
     // TEMPORARY FOR DEMO: Only require 2FA for Admin
     if (user.role.name === 'Admin') {
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      const code = '123456'; // FIXED CODE FOR DEMO
       twoFactorCodes.set(email.trim().toLowerCase(), {
         code,
         user,
